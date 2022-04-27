@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <AssemblyName>fr.minemobs.taikoinfinitecoins</AssemblyName>
+    <Description>TaikoInfiniteCoins</Description>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <TaikoFolder>E:\nvmedownload\Taiko no Tatsujin The Drum Master!</TaikoFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.*" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
+    <PackageReference Include="Taiko.GameLibs" Version="1.2.2-r.1" />
+    <PackageReference Include="UnityEngine.Modules" Version="2020.3.19.6877495" IncludeAssets="compile" />
+  </ItemGroup>
+
+  <Target Name="Copy" AfterTargets="Build">
+    <Error Condition="'$(TaikoFolder)' == ''" Text="Couldn't find game path, make sure to set TaikoFolder property in the project config." />
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFiles="$(TaikoFolder)/BepInEx/plugins/$(Description).dll" />
+  </Target>
+  
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(TaikoFolder)\Taiko no Tatsujin_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
